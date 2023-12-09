@@ -1,7 +1,7 @@
 import 'package:self_manage_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+// import 'package:firebase_core/firebase_core.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -66,7 +66,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       // ユーザー登録に成功した場合
                       await Navigator.of(context).pushReplacement(
                         MaterialPageRoute(builder: (context) {
-                          return TopPage();
+                          return HomePage();
                         }),
                       );
                     } catch (e) {
@@ -89,7 +89,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   onPressed: () async {
                     await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) {
-                        return TopPage();
+                        return HomePage();
                       }),
                     );
                   },

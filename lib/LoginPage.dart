@@ -84,7 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () async {
                     await Navigator.of(context).pushReplacement(
                       MaterialPageRoute(builder: (context) {
-                        return TopPage();
+                        return HomePage();
                       }),
                     );
                   },

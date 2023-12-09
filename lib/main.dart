@@ -30,12 +30,33 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: TopPage(),
+      home: HomePage(),
     );
   }
 }
 
-class TopPage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  bool is_login = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // TODO: ログインしているかどうかの確認
+    // ログインしていない場合は、ログインページに飛ばす
+    Future(() {
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) {
+          return LoginPage();
+        }),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
