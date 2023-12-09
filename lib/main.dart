@@ -6,6 +6,7 @@ import 'package:self_manage_app/RegisterPage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    name: 'selfmanageapp-74941',
     options: const FirebaseOptions(
       apiKey: "AIzaSyDk2jdkpIVrtmpNAScUQrGA5m81yB7kf_E",
       authDomain: "selfmanageapp-74941.firebaseapp.com",
