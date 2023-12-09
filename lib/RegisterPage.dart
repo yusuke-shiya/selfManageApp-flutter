@@ -20,8 +20,12 @@ class _RegisterPageState extends State<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('新規登録'),
+      ),
       body: Center(
         child: Container(
+          constraints: BoxConstraints.loose(Size(400, double.infinity)),
           padding: EdgeInsets.all(24),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -50,34 +54,33 @@ class _RegisterPageState extends State<RegisterPage> {
                 // メッセージ表示
                 child: Text(infoText),
               ),
-              Container(
-                width: double.infinity,
-                // ユーザー登録ボタン
-                child: ElevatedButton(
-                  child: Text('登録'),
-                  onPressed: () async {
-                    try {
-                      // メール/パスワードでユーザ登録
-                      final FirebaseAuth auth = FirebaseAuth.instance;
-                      await auth.createUserWithEmailAndPassword(
-                        email: email,
-                        password: password,
-                      );
-
-                      // ユーザー登録に成功した場合
-                      await Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) {
-                          return HomePage();
-                        }),
-                      );
-                    } catch (e) {
-                      // ユーザー登録に失敗した場合
-                      setState(() {
-                        infoText = "登録に失敗しました：${e.toString()}";
-                      });
-                    }
-                  },
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  fixedSize: Size.fromWidth(double.maxFinite),
                 ),
+                onPressed: () async {
+                  try {
+                    // メール/パスワードでユーザ登録
+                    final FirebaseAuth auth = FirebaseAuth.instance;
+                    await auth.createUserWithEmailAndPassword(
+                      email: email,
+                      password: password,
+                    );
+
+                    // ユーザー登録に成功した場合
+                    await Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) {
+                        return HomePage();
+                      }),
+                    );
+                  } catch (e) {
+                    // ユーザー登録に失敗した場合
+                    setState(() {
+                      infoText = "登録に失敗しました：${e.toString()}";
+                    });
+                  }
+                },
+                child: Text('登録'),
               ),
               Container(
                 padding: EdgeInsets.all(8),
