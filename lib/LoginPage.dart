@@ -1,6 +1,7 @@
 import 'package:self_manage_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:self_manage_app/RegisterPage.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -73,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
-                        infoText = "登録に失敗しました：${e.toString()}";
+                        infoText = "ログインに失敗しました：${e.toString()}";
                       });
                     }
                   },
@@ -82,20 +83,15 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 padding: EdgeInsets.all(8),
               ),
-              Container(
-                width: double.infinity,
-                // ユーザー登録ボタン
-                child: ElevatedButton(
-                  child: Text('戻る'),
-                  onPressed: () async {
-                    await Navigator.of(context).pushReplacement(
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
-                        return HomePage();
+                        return RegisterPage();
                       }),
                     );
                   },
-                ),
-              )
+                  child: Text('登録はこちら'))
             ],
           ),
         ),

@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:self_manage_app/LoginPage.dart';
-import 'package:self_manage_app/RegisterPage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -73,32 +72,20 @@ class _HomePageState extends State<HomePage> {
             Text(auth.currentUser?.email != null
                 ? 'email: ${auth.currentUser?.email}'
                 : 'ログインしていません'),
-            ElevatedButton(
-              child: Text('ログイン'),
-              onPressed: () async {
-                await Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) {
-                    return LoginPage();
-                  }),
-                );
-              },
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              child: Text('アカウント作成'),
-              onPressed: () async {
-                await Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) {
-                    return RegisterPage();
-                  }),
-                );
-              },
-            ),
+            SizedBox(height: 10),
+            Text(auth.currentUser?.uid != null
+                ? 'UID: ${auth.currentUser?.uid}'
+                : 'ログインしていません'),
             SizedBox(height: 20),
             ElevatedButton(
               child: Text('ログアウト'),
               onPressed: () async {
                 await auth.signOut();
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: (context) {
+                    return LoginPage();
+                  }),
+                );
               },
             ),
           ],

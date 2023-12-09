@@ -1,3 +1,4 @@
+import 'package:self_manage_app/LoginPage.dart';
 import 'package:self_manage_app/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,7 +54,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 width: double.infinity,
                 // ユーザー登録ボタン
                 child: ElevatedButton(
-                  child: Text('ユーザー登録'),
+                  child: Text('登録'),
                   onPressed: () async {
                     try {
                       // メール/パスワードでユーザ登録
@@ -81,20 +82,17 @@ class _RegisterPageState extends State<RegisterPage> {
               Container(
                 padding: EdgeInsets.all(8),
               ),
-              Container(
-                width: double.infinity,
-                // ユーザー登録ボタン
-                child: ElevatedButton(
-                  child: Text('戻る'),
-                  onPressed: () async {
-                    await Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) {
-                        return HomePage();
-                      }),
-                    );
-                  },
-                ),
-              )
+              // ユーザー登録ボタン
+              TextButton(
+                child: Text('ログインはこちら'),
+                onPressed: () async {
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) {
+                      return LoginPage();
+                    }),
+                  );
+                },
+              ),
             ],
           ),
         ),
