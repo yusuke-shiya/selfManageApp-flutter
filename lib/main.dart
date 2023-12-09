@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:self_manage_app/LoginPage.dart';
@@ -42,18 +43,23 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   bool is_login = false;
+  final FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
     super.initState();
-    // TODO: ログインしているかどうかの確認
+    // ログイン状態を確認
+    final User? user = auth.currentUser;
+
     // ログインしていない場合は、ログインページに飛ばす
     Future(() {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) {
-          return LoginPage();
-        }),
-      );
+      if (user == null) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) {
+            return LoginPage();
+          }),
+        );
+      }
     });
   }
 
@@ -64,6 +70,9 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Text(auth.currentUser?.email != null
+                ? 'email: ${auth.currentUser?.email}'
+                : 'ログインしていません'),
             ElevatedButton(
               child: Text('ログイン'),
               onPressed: () async {
@@ -74,7 +83,7 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-            Padding(padding: EdgeInsets.all(20)),
+            SizedBox(height: 20),
             ElevatedButton(
               child: Text('アカウント作成'),
               onPressed: () async {
@@ -83,6 +92,13 @@ class _HomePageState extends State<HomePage> {
                     return RegisterPage();
                   }),
                 );
+              },
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              child: Text('ログアウト'),
+              onPressed: () async {
+                await auth.signOut();
               },
             ),
           ],

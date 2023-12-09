@@ -64,6 +64,12 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {
                         infoText = "ログインに成功しました";
                       });
+                      // ホーム画面に飛ばす
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(builder: (context) {
+                          return HomePage();
+                        }),
+                      );
                     } catch (e) {
                       // ユーザー登録に失敗した場合
                       setState(() {
