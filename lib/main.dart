@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:self_manage_app/firebase_options.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:self_manage_app/LoginPage.dart';
@@ -6,15 +7,8 @@ import 'package:self_manage_app/LoginPage.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    name: 'selfmanageapp-74941',
-    options: const FirebaseOptions(
-      apiKey: "AIzaSyDk2jdkpIVrtmpNAScUQrGA5m81yB7kf_E",
-      authDomain: "selfmanageapp-74941.firebaseapp.com",
-      projectId: "selfmanageapp-74941",
-      storageBucket: "selfmanageapp-74941.appspot.com",
-      messagingSenderId: "738106322860",
-      appId: "1:738106322860:web:9c6e91e2b6dd66ffcf1409",
-    ),
+    name: 'selfmanageapp',
+    options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
 }
