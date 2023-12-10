@@ -82,6 +82,15 @@ class _HomePageState extends State<HomePage> {
                 : 'ログインしていません'),
             SizedBox(height: 20),
             ElevatedButton(
+                onPressed: () {
+                  auth.currentUser?.getIdToken(true).then((value) {
+                    print('トークンはこれだ！');
+                    print(value);
+                  });
+                },
+                child: Text('トークン発行！')),
+            SizedBox(height: 20),
+            ElevatedButton(
               child: Text('ログアウト'),
               onPressed: () async {
                 await auth.signOut();
