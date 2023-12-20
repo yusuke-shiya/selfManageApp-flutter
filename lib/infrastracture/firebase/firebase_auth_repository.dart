@@ -1,10 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:self_manage_app/domain/user/entity/user.dart';
 import 'package:self_manage_app/domain/user/user_repository.dart';
 
 class FirebaseAuthRepository implements UserRepository {
-  final firebase_auth.FirebaseAuth _firebaseAuth =
-      firebase_auth.FirebaseAuth.instance;
+  final firebase_auth.FirebaseAuth _firebaseAuth;
+
+  FirebaseAuthRepository(this._firebaseAuth);
 
   @override
   Future<User> signIn(String email, String password) async {
@@ -42,8 +44,14 @@ class FirebaseAuthRepository implements UserRepository {
 
   @override
   Stream<User?> get onAuthStateChanged {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      return firebaseUser == null ? null : _userFromFirebase(firebaseUser);
-    });
+    return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 }
+
+final firebaseAuthProvider = Provider<firebase_auth.FirebaseAuth>((ref) {
+  return firebase_auth.FirebaseAuth.instance;
+});
+
+final userRepositoryProvider = Provider<UserRepository>((ref) {
+  return FirebaseAuthRepository(ref.read(firebaseAuthProvider));
+});
