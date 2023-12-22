@@ -47,11 +47,3 @@ class FirebaseAuthRepository implements UserRepository {
     return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 }
-
-final firebaseAuthProvider = Provider<firebase_auth.FirebaseAuth>((ref) {
-  return firebase_auth.FirebaseAuth.instance;
-});
-
-final userRepositoryProvider = Provider<UserRepository>((ref) {
-  return FirebaseAuthRepository(ref.read(firebaseAuthProvider));
-});

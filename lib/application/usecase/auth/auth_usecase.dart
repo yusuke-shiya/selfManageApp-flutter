@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:self_manage_app/domain/user/entity/user.dart';
 import 'package:self_manage_app/domain/user/user_repository.dart';
-// TODO: infrastracture層に依存してしまっているので、domain層に依存させるように修正したい
 import 'package:self_manage_app/infrastracture/firebase/firebase_auth_repository.dart';
 
 class AuthUseCase {
