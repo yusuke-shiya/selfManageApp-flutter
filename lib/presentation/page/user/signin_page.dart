@@ -1,22 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
 import 'package:self_manage_app/presentation/page/home_page.dart';
 import 'package:self_manage_app/presentation/page/user/signup_page.dart';
 
-class LoginPage extends StatefulWidget {
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  // メッセージ表示用
-  String infoText = '';
-  // 入力したメールアドレス・パスワード
-  String email = '';
-  String password = '';
+class SigninPage extends ConsumerWidget {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // 状態が更新された際のリアクション
+    ref.listen<AuthState>(authStateProvider, (_, state) {
+      if (state.user != null) {
+        // ユーザーが認証されている場合、ホームページに遷移
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else if (state.error != null) {
+        // エラーがある場合、エラーメッセージを表示
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.error!)),
+        );
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text('ログイン'),
@@ -25,77 +34,55 @@ class _LoginPageState extends State<LoginPage> {
         child: Container(
           constraints: BoxConstraints.loose(Size(400, double.infinity)),
           padding: EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // メールアドレス入力
-              TextFormField(
-                decoration: InputDecoration(labelText: 'メールアドレス'),
-                onChanged: (String value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
-              ),
-              // パスワード入力
-              TextFormField(
-                decoration: InputDecoration(labelText: 'パスワード'),
-                obscureText: true,
-                onChanged: (String value) {
-                  setState(() {
-                    password = value;
-                  });
-                },
-              ),
-              Container(
-                padding: EdgeInsets.all(8),
-                // メッセージ表示
-                child: Text(infoText),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size.fromWidth(double.maxFinite),
-                ),
-                onPressed: () async {
-                  try {
-                    // メール/パスワードでログイン
-                    final FirebaseAuth auth = FirebaseAuth.instance;
-                    await auth.signInWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                    );
-                    // ユーザー登録に成功した場合
-                    setState(() {
-                      infoText = "ログインに成功しました";
-                    });
-                    // ホーム画面に飛ばす
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) {
-                        return HomePage();
-                      }),
-                    );
-                  } catch (e) {
-                    // ユーザー登録に失敗した場合
-                    setState(() {
-                      infoText = "ログインに失敗しました：${e.toString()}";
-                    });
-                  }
-                },
-                child: Text('ログイン'),
-              ),
-              Container(
-                padding: EdgeInsets.all(8),
-              ),
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return RegisterPage();
-                      }),
-                    );
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // メールアドレス入力
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(labelText: 'メールアドレス'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'メールアドレスを入力してください';
+                    }
+                    return null;
                   },
-                  child: Text('登録はこちら'))
-            ],
+                ),
+                // パスワード入力
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(labelText: 'パスワード'),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'パスワードを入力してください';
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      final email = _emailController.text;
+                      final password = _passwordController.text;
+                      // AuthStateNotifierを通じてサインイン処理を実行
+                      await ref
+                          .read(authStateProvider.notifier)
+                          .signIn(email, password);
+                    }
+                  },
+                  child: Text('ログイン'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SignupPage())),
+                  child: Text('登録はこちら'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
