@@ -1,23 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:self_manage_app/presentation/page/user/signin_page.dart';
 import 'package:self_manage_app/presentation/page/home_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
 
-class RegisterPage extends StatefulWidget {
-  @override
-  _RegisterPageState createState() => _RegisterPageState();
-}
-
-class _RegisterPageState extends State<RegisterPage> {
-  // メッセージ表示用
-  String infoText = '';
-  // 入力したメールアドレス・パスワード
-  String email = '';
-  String password = '';
-  String userName = '';
+class SignupPage extends ConsumerWidget {
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // 状態が更新された際のリアクション
+    ref.listen<AuthState>(authStateProvider, (_, state) {
+      if (state.user != null) {
+        // ユーザーが認証されている場合、ホームページに遷移
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      } else if (state.error != null) {
+        // エラーがある場合、エラーメッセージを表示
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(state.error!)),
+        );
+      }
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text('新規登録'),
@@ -26,76 +34,61 @@ class _RegisterPageState extends State<RegisterPage> {
         child: Container(
           constraints: BoxConstraints.loose(Size(400, double.infinity)),
           padding: EdgeInsets.all(24),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              // メールアドレス入力
-              TextFormField(
-                decoration: InputDecoration(labelText: 'メールアドレス'),
-                onChanged: (String value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
-              ),
-              // パスワード入力
-              TextFormField(
-                decoration: InputDecoration(labelText: 'パスワード'),
-                obscureText: true,
-                onChanged: (String value) {
-                  setState(() {
-                    password = value;
-                  });
-                },
-              ),
-              Container(
-                padding: EdgeInsets.all(8),
-                // メッセージ表示
-                child: Text(infoText),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  fixedSize: Size.fromWidth(double.maxFinite),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                // メールアドレス入力
+                TextFormField(
+                  controller: _emailController,
+                  decoration: InputDecoration(labelText: 'メールアドレス'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'メールアドレスを入力してください';
+                    }
+                    return null;
+                  },
                 ),
-                onPressed: () async {
-                  try {
-                    // メール/パスワードでユーザ登録
-                    final FirebaseAuth auth = FirebaseAuth.instance;
-                    await auth.createUserWithEmailAndPassword(
-                      email: email,
-                      password: password,
-                    );
-
-                    // ユーザー登録に成功した場合
-                    await Navigator.of(context).pushReplacement(
+                // パスワード入力
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(labelText: 'パスワード'),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'パスワードを入力してください';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () async {
+                    if (_formKey.currentState!.validate()) {
+                      final email = _emailController.text;
+                      final password = _passwordController.text;
+                      await ref
+                          .read(authStateProvider.notifier)
+                          .signUp(email, password);
+                    }
+                  },
+                  child: Text('登録'),
+                ),
+                const SizedBox(height: 20),
+                // ユーザー登録ボタン
+                TextButton(
+                  child: Text('ログインはこちら'),
+                  onPressed: () async {
+                    await Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
-                        return HomePage();
+                        return SigninPage();
                       }),
                     );
-                  } catch (e) {
-                    // ユーザー登録に失敗した場合
-                    setState(() {
-                      infoText = "登録に失敗しました：${e.toString()}";
-                    });
-                  }
-                },
-                child: Text('登録'),
-              ),
-              Container(
-                padding: EdgeInsets.all(8),
-              ),
-              // ユーザー登録ボタン
-              TextButton(
-                child: Text('ログインはこちら'),
-                onPressed: () async {
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) {
-                      return LoginPage();
-                    }),
-                  );
-                },
-              ),
-            ],
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
