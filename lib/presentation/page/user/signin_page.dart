@@ -76,6 +76,7 @@ class SigninPage extends ConsumerWidget {
                   },
                   child: Text('ログイン'),
                 ),
+                const SizedBox(height: 20),
                 TextButton(
                   onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => SignupPage())),
