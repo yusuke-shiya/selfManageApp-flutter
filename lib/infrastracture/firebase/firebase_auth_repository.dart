@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:self_manage_app/domain/user/entity/user.dart';
 import 'package:self_manage_app/domain/user/user_repository.dart';
 
