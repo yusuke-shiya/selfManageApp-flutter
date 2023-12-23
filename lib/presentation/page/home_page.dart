@@ -1,36 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
 import 'package:self_manage_app/presentation/page/user/signin_page.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerWidget {
   @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  bool is_login = false;
-  final FirebaseAuth auth = FirebaseAuth.instance;
-
-  @override
-  void initState() {
-    super.initState();
-    // ログイン状態を確認
-    final User? user = auth.currentUser;
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final authState = ref.watch(authStateProvider);
     // ログインしていない場合は、ログインページに飛ばす
-    Future(() {
-      if (user == null) {
+    if (authState.user == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) {
-            return LoginPage();
-          }),
+          MaterialPageRoute(builder: (context) => SigninPage()),
         );
-      }
-    });
-  }
+      });
+    }
 
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('ホーム'),
@@ -39,31 +24,20 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(auth.currentUser?.email != null
-                ? 'email: ${auth.currentUser?.email}'
+            Text(authState.user?.email != null
+                ? 'email: ${authState.user?.email}'
                 : 'ログインしていません'),
             SizedBox(height: 10),
-            Text(auth.currentUser?.uid != null
-                ? 'UID: ${auth.currentUser?.uid}'
+            Text(authState.user?.uid != null
+                ? 'UID: ${authState.user?.uid}'
                 : 'ログインしていません'),
-            SizedBox(height: 20),
-            ElevatedButton(
-                onPressed: () {
-                  auth.currentUser?.getIdToken(true).then((value) {
-                    print('トークンはこれだ！');
-                    print(value);
-                  });
-                },
-                child: Text('トークン発行！')),
             SizedBox(height: 20),
             ElevatedButton(
               child: Text('ログアウト'),
               onPressed: () async {
-                await auth.signOut();
+                await ref.read(authStateProvider.notifier).signOut();
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) {
-                    return LoginPage();
-                  }),
+                  MaterialPageRoute(builder: (context) => SigninPage()),
                 );
               },
             ),
