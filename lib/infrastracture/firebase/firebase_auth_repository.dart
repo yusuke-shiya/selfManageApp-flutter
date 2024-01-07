@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:self_manage_app/domain/user/entity/user.dart';
 import 'package:self_manage_app/domain/user/user_repository.dart';
+import 'package:self_manage_app/infrastracture/api/user_api_client.dart';
 
 class FirebaseAuthRepository implements UserRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
@@ -13,6 +14,15 @@ class FirebaseAuthRepository implements UserRepository {
       email: email,
       password: password,
     );
+    // 試しにtokenを取得してuser_api_clientのcreateUserを呼び出してみる
+    final token = 'Bearer ${await credential.user!.getIdToken()}';
+    final name = 'test name';
+    try {
+      final user = await UserApiClient().createUser(name, email, token);
+    } catch (e) {
+      print('error');
+      print(e);
+    }
     return _userFromFirebase(credential.user);
   }
 
@@ -22,6 +32,15 @@ class FirebaseAuthRepository implements UserRepository {
       email: email,
       password: password,
     );
+    // 試しにtokenを取得してuser_api_clientのcreateUserを呼び出してみる
+    final token = 'Bearer ${await credential.user!.getIdToken()}';
+    final name = 'test name';
+    try {
+      final user = await UserApiClient().createUser(name, email, token);
+    } catch (e) {
+      print('error');
+      print(e);
+    }
     return _userFromFirebase(credential.user);
   }
 
