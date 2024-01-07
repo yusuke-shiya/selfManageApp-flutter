@@ -2,10 +2,12 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "type": "chrome",
+      "name": "Flutter Dev",
       "request": "launch",
-      "name": "Launch Chrome against localhost",
-      "url": "http://localhost:8080"
+      "type": "dart",
+      "program": "lib/main.dart",
+      "flutterMode": "debug",
+      "args": ["--flavor", "dev", "--web-port", "8080"]
     }
   ]
 }
