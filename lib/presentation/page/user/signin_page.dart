@@ -11,9 +11,7 @@ class SigninPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // authStateProviderを読み込む
-    final authState = ref.watch(authStateProvider);
-    // 状態が更新された際のリアクション
+    // 状態が更新された際の副作用
     ref.listen<AuthState>(authStateProvider, (_, state) {
       if (state.auth != null) {
         // ユーザーが認証されている場合、ホームページに遷移
@@ -27,6 +25,8 @@ class SigninPage extends ConsumerWidget {
         );
       }
     });
+    // authStateProviderを読み込む
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -41,7 +41,6 @@ class SigninPage extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // メールアドレス入力
                 TextFormField(
                   controller: _emailController,
                   decoration: const InputDecoration(labelText: 'メールアドレス'),
@@ -52,7 +51,6 @@ class SigninPage extends ConsumerWidget {
                     return null;
                   },
                 ),
-                // パスワード入力
                 TextFormField(
                   controller: _passwordController,
                   decoration: const InputDecoration(labelText: 'パスワード'),

@@ -11,15 +11,13 @@ class SignupPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 状態が更新された際のリアクション
+    // 状態が更新された際の副作用
     ref.listen<AuthState>(authStateProvider, (_, state) {
       if (state.auth != null) {
-        // ユーザーが認証されている場合、ホームページに遷移
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomePage()),
         );
       } else if (state.error != null) {
-        // エラーがある場合、エラーメッセージを表示
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(state.error!)),
         );
@@ -41,7 +39,6 @@ class SignupPage extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                // メールアドレス入力
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(labelText: 'メールアドレス'),
@@ -52,7 +49,6 @@ class SignupPage extends ConsumerWidget {
                     return null;
                   },
                 ),
-                // パスワード入力
                 TextFormField(
                   controller: _passwordController,
                   decoration: InputDecoration(labelText: 'パスワード'),
@@ -80,7 +76,6 @@ class SignupPage extends ConsumerWidget {
                   child: const Text('新規登録'),
                 ),
                 const SizedBox(height: 20),
-                // ユーザー登録ボタン
                 TextButton(
                   child: const Text('ログインはこちら'),
                   onPressed: () async {
