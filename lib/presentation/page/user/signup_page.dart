@@ -30,8 +30,9 @@ class SignupPage extends ConsumerWidget {
         );
       }
     });
-    // authStateProviderを読み込む
+    // stateProviderを読み込む
     final authState = ref.watch(authStateProvider);
+    final userState = ref.watch(userStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -69,7 +70,7 @@ class SignupPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: authState.isLoading
+                  onPressed: authState.isLoading || userState.isLoading
                       ? null
                       : () async {
                           if (_formKey.currentState!.validate()) {
