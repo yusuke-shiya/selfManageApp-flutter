@@ -8,7 +8,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
-    // ログインしていない場合は、ログインページに飛ばす
+    // ログインしていない場合はログイン画面に遷移
     if (authState.auth == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pushReplacement(
