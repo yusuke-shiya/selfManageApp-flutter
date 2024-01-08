@@ -1,14 +1,14 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:self_manage_app/domain/user/entity/user.dart';
+import 'package:self_manage_app/domain/auth/entity/auth.dart';
 import 'package:self_manage_app/application/usecase/auth/auth_usecase.dart';
 
 // 認証状態を表すクラス
 class AuthState {
-  final User? user;
+  final Auth? auth;
   final bool isLoading;
   final String? error;
 
-  AuthState({this.user, this.isLoading = false, this.error});
+  AuthState({this.auth, this.isLoading = false, this.error});
 
   // ローディング状態にするためのファクトリコンストラクタ
   AuthState.loading() : this(isLoading: true);
@@ -17,7 +17,7 @@ class AuthState {
   AuthState.error(String error) : this(error: error);
 
   // ユーザーが設定されている状態にするためのファクトリコンストラクタ
-  AuthState.authenticated(User user) : this(user: user);
+  AuthState.authenticated(Auth auth) : this(auth: auth);
 }
 
 // 認証状態を管理するプロバイダ
@@ -37,8 +37,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   Future<void> signIn(String email, String password) async {
     try {
       state = AuthState.loading();
-      final user = await _authUseCase.signIn(email, password);
-      state = AuthState.authenticated(user);
+      final auth = await _authUseCase.signIn(email, password);
+      state = AuthState.authenticated(auth);
     } catch (e) {
       state = AuthState.error(e.toString());
     }
@@ -58,8 +58,8 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
   Future<void> signUp(String email, String password) async {
     try {
       state = AuthState.loading();
-      final user = await _authUseCase.signUp(email, password);
-      state = AuthState.authenticated(user);
+      final auth = await _authUseCase.signUp(email, password);
+      state = AuthState.authenticated(auth);
     } catch (e) {
       state = AuthState.error(e.toString());
     }

@@ -1,25 +1,25 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:self_manage_app/domain/user/entity/user.dart';
-import 'package:self_manage_app/domain/user/user_repository.dart';
+import 'package:self_manage_app/domain/auth/entity/auth.dart';
+import 'package:self_manage_app/domain/auth/auth_repository.dart';
 
 class AuthUseCase {
-  final UserRepository userRepository;
+  final AuthRepository authRepository;
 
-  AuthUseCase(this.userRepository);
+  AuthUseCase(this.authRepository);
 
-  Future<User> signIn(String email, String password) async {
-    return userRepository.signIn(email, password);
+  Future<Auth> signIn(String email, String password) async {
+    return authRepository.signIn(email, password);
   }
 
-  Future<User> signUp(String email, String password) async {
-    return userRepository.signUp(email, password);
+  Future<Auth> signUp(String email, String password) async {
+    return authRepository.signUp(email, password);
   }
 
   Future<void> signOut() async {
-    await userRepository.signOut();
+    await authRepository.signOut();
   }
 }
 
 final authUseCaseProvider = Provider<AuthUseCase>((ref) {
-  return AuthUseCase(ref.read(userRepositoryProvider));
+  return AuthUseCase(ref.read(authRepositoryProvider));
 });
