@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
+import 'package:self_manage_app/application/usecase/user/state/user_provider.dart';
 import 'package:self_manage_app/presentation/page/home_page.dart';
 import 'package:self_manage_app/presentation/page/user/signup_page.dart';
 
@@ -12,21 +13,24 @@ class SigninPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 状態が更新された際の副作用
-    ref.listen<AuthState>(authStateProvider, (_, state) {
+    ref.listen<AuthState>(authStateProvider, (_, state) async {
       if (state.auth != null) {
-        // ホーム画面に遷移
+        // backendからユーザー情報を取得し、ホーム画面に遷移
+        await ref.read(userStateProvider.notifier).get(
+              await ref.read(authStateProvider.notifier).token,
+            );
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomePage()),
         );
       } else if (state.error != null) {
-        // エラーがある場合、エラーメッセージを表示
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(state.error!)),
         );
       }
     });
-    // authStateProviderを読み込む
+    // stateProviderを読み込む
     final authState = ref.watch(authStateProvider);
+    final userState = ref.watch(userStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -64,7 +68,7 @@ class SigninPage extends ConsumerWidget {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: authState.isLoading
+                  onPressed: authState.isLoading || userState.isLoading
                       ? null
                       : () async {
                           if (_formKey.currentState!.validate()) {
