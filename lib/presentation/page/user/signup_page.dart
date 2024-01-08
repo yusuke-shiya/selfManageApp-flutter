@@ -7,6 +7,7 @@ import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dar
 
 class SignupPage extends ConsumerWidget {
   final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
@@ -20,8 +21,8 @@ class SignupPage extends ConsumerWidget {
       if (state.auth != null) {
         // backendにもユーザーを作成し、ホーム画面に遷移
         await ref.read(userStateProvider.notifier).create(
+              _nameController.text,
               state.auth!.email,
-              state.auth!.uid,
               await ref.read(authStateProvider.notifier).token,
             );
         Navigator.of(context).pushReplacement(
@@ -50,6 +51,16 @@ class SignupPage extends ConsumerWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                TextFormField(
+                  controller: _nameController,
+                  decoration: InputDecoration(labelText: '名前'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '名前を入力してください';
+                    }
+                    return null;
+                  },
+                ),
                 TextFormField(
                   controller: _emailController,
                   decoration: InputDecoration(labelText: 'メールアドレス'),
