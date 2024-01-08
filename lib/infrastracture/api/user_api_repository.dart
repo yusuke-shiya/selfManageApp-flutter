@@ -5,10 +5,11 @@ import 'package:self_manage_app/domain/user/user_repository.dart';
 const url = 'https://selfmanageapp.onrender.com/user';
 
 class UserApiRepository implements UserRepository {
+  final _dio = Dio();
+
   @override
   Future<User> get(String token) async {
-    final dio = Dio();
-    final response = await dio.get(
+    final response = await _dio.get(
       url,
       options: Options(
         headers: {
@@ -35,8 +36,7 @@ class UserApiRepository implements UserRepository {
 
   @override
   Future<User> create(String name, String email, String token) async {
-    final dio = Dio();
-    final response = await dio.post(url,
+    final response = await _dio.post(url,
         data: {'name': name, 'email': email},
         options: Options(
           headers: {
