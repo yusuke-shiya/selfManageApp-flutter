@@ -14,7 +14,7 @@ class SigninPage extends ConsumerWidget {
     // 状態が更新された際の副作用
     ref.listen<AuthState>(authStateProvider, (_, state) {
       if (state.auth != null) {
-        // ユーザーが認証されている場合、ホームページに遷移
+        // ホーム画面に遷移
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomePage()),
         );
