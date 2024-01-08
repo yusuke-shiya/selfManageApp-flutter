@@ -5,6 +5,8 @@ import 'package:self_manage_app/presentation/page/app.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:self_manage_app/domain/auth/auth_repository.dart';
 import 'package:self_manage_app/infrastracture/firebase/firebase_auth_repository.dart';
+import 'package:self_manage_app/domain/user/user_repository.dart';
+import 'package:self_manage_app/infrastracture/api/user_api_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 void main() async {
@@ -20,6 +22,9 @@ void main() async {
           FirebaseAuthRepository(
             FirebaseAuth.instance,
           ),
+        ),
+        userRepositoryProvider.overrideWithValue(
+          UserApiRepository(),
         ),
       ],
       child: MyApp(),
