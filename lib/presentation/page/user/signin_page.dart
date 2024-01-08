@@ -11,6 +11,8 @@ class SigninPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // authStateProviderを読み込む
+    final authState = ref.watch(authStateProvider);
     // 状態が更新された際のリアクション
     ref.listen<AuthState>(authStateProvider, (_, state) {
       if (state.auth != null) {
@@ -64,17 +66,19 @@ class SigninPage extends ConsumerWidget {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      final email = _emailController.text;
-                      final password = _passwordController.text;
-                      // AuthStateNotifierを通じてサインイン処理を実行
-                      await ref
-                          .read(authStateProvider.notifier)
-                          .signIn(email, password);
-                    }
-                  },
-                  child: Text('ログイン'),
+                  onPressed: authState.isLoading
+                      ? null
+                      : () async {
+                          if (_formKey.currentState!.validate()) {
+                            final email = _emailController.text;
+                            final password = _passwordController.text;
+                            // AuthStateNotifierを通じてサインイン処理を実行
+                            await ref
+                                .read(authStateProvider.notifier)
+                                .signIn(email, password);
+                          }
+                        },
+                  child: const Text('ログイン'),
                 ),
                 const SizedBox(height: 20),
                 TextButton(

@@ -25,6 +25,8 @@ class SignupPage extends ConsumerWidget {
         );
       }
     });
+    // authStateProviderを読み込む
+    final authState = ref.watch(authStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -64,21 +66,23 @@ class SignupPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState!.validate()) {
-                      final email = _emailController.text;
-                      final password = _passwordController.text;
-                      await ref
-                          .read(authStateProvider.notifier)
-                          .signUp(email, password);
-                    }
-                  },
-                  child: Text('登録'),
+                  onPressed: authState.isLoading
+                      ? null
+                      : () async {
+                          if (_formKey.currentState!.validate()) {
+                            final email = _emailController.text;
+                            final password = _passwordController.text;
+                            await ref
+                                .read(authStateProvider.notifier)
+                                .signUp(email, password);
+                          }
+                        },
+                  child: const Text('新規登録'),
                 ),
                 const SizedBox(height: 20),
                 // ユーザー登録ボタン
                 TextButton(
-                  child: Text('ログインはこちら'),
+                  child: const Text('ログインはこちら'),
                   onPressed: () async {
                     await Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) {
