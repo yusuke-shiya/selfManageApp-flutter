@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:self_manage_app/application/usecase/user/state/user_provider.dart';
 import 'package:self_manage_app/presentation/page/user/signin_page.dart';
 import 'package:self_manage_app/presentation/page/home_page.dart';
 import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
@@ -12,8 +13,14 @@ class SignupPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 状態が更新された際の副作用
-    ref.listen<AuthState>(authStateProvider, (_, state) {
+    ref.listen<AuthState>(authStateProvider, (_, state) async {
       if (state.auth != null) {
+        // ユーザーが認証されている場合、user apiのcreateを実行
+        await ref.read(userStateProvider.notifier).create(
+              state.auth!.email,
+              state.auth!.uid,
+              await ref.read(authStateProvider.notifier).token,
+            );
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => HomePage()),
         );
