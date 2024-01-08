@@ -1,46 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:self_manage_app/domain/user/entity/user.dart';
-import 'package:self_manage_app/domain/user/user_repository.dart';
-import 'package:self_manage_app/infrastracture/api/user_api_client.dart';
+import 'package:self_manage_app/domain/auth/entity/auth.dart';
+import 'package:self_manage_app/domain/auth/auth_repository.dart';
 
-class FirebaseAuthRepository implements UserRepository {
+class FirebaseAuthRepository implements AuthRepository {
   final firebase_auth.FirebaseAuth _firebaseAuth;
 
   FirebaseAuthRepository(this._firebaseAuth);
 
   @override
-  Future<User> signIn(String email, String password) async {
+  Future<Auth> signIn(String email, String password) async {
     final credential = await _firebaseAuth.signInWithEmailAndPassword(
       email: email,
       password: password,
     );
-    // 試しにtokenを取得してuser_api_clientのcreateUserを呼び出してみる
-    final token = 'Bearer ${await credential.user!.getIdToken()}';
-    final name = 'test name';
-    try {
-      final user = await UserApiClient().createUser(name, email, token);
-    } catch (e) {
-      print('error');
-      print(e);
-    }
     return _userFromFirebase(credential.user);
   }
 
   @override
-  Future<User> signUp(String email, String password) async {
+  Future<Auth> signUp(String email, String password) async {
     final credential = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email,
       password: password,
     );
-    // 試しにtokenを取得してuser_api_clientのcreateUserを呼び出してみる
-    final token = 'Bearer ${await credential.user!.getIdToken()}';
-    final name = 'test name';
-    try {
-      final user = await UserApiClient().createUser(name, email, token);
-    } catch (e) {
-      print('error');
-      print(e);
-    }
     return _userFromFirebase(credential.user);
   }
 
@@ -49,19 +30,19 @@ class FirebaseAuthRepository implements UserRepository {
     await _firebaseAuth.signOut();
   }
 
-  User _userFromFirebase(firebase_auth.User? user) {
+  Auth _userFromFirebase(firebase_auth.User? user) {
     if (user == null) {
       throw firebase_auth.FirebaseAuthException(
         code: 'USER_NOT_FOUND',
         message: 'User not found',
       );
     }
-    return User(
+    return Auth(
         uid: user.uid, email: user.email!, name: user.displayName ?? "");
   }
 
   @override
-  Stream<User?> get onAuthStateChanged {
+  Stream<Auth?> get onAuthStateChanged {
     return _firebaseAuth.authStateChanges().map(_userFromFirebase);
   }
 }
