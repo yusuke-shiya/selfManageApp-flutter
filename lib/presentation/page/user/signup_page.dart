@@ -14,6 +14,9 @@ class SignupPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // 状態が更新された際の副作用
     ref.listen<AuthState>(authStateProvider, (_, state) async {
+      // 画面が破棄されていたら何もしない
+      if (!ModalRoute.of(context)!.isCurrent) return;
+      // stateが更新されたら、状態に応じて処理を実行
       if (state.auth != null) {
         // backendにもユーザーを作成し、ホーム画面に遷移
         await ref.read(userStateProvider.notifier).create(
