@@ -9,7 +9,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
     // ログインしていない場合は、ログインページに飛ばす
-    if (authState.user == null) {
+    if (authState.auth == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => SigninPage()),
@@ -25,12 +25,12 @@ class HomePage extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(authState.user?.email != null
-                ? 'email: ${authState.user?.email}'
+            Text(authState.auth?.email != null
+                ? 'email: ${authState.auth?.email}'
                 : 'ログインしていません'),
             SizedBox(height: 10),
-            Text(authState.user?.uid != null
-                ? 'UID: ${authState.user?.uid}'
+            Text(authState.auth?.uid != null
+                ? 'UID: ${authState.auth?.uid}'
                 : 'ログインしていません'),
             SizedBox(height: 20),
             ElevatedButton(
