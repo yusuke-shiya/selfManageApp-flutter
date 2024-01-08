@@ -33,6 +33,17 @@ class UserStateNotifier extends StateNotifier<UserState> {
 
   UserStateNotifier(this._userUseCase) : super(UserState());
 
+  // ユーザー情報を取得するロジック
+  Future<void> get(String token) async {
+    try {
+      state = UserState.loading();
+      final user = await _userUseCase.get(token);
+      state = UserState.user(user);
+    } catch (e) {
+      state = UserState.error(e.toString());
+    }
+  }
+
   // ユーザー作成のロジック
   Future<void> create(String name, String email, String token) async {
     try {

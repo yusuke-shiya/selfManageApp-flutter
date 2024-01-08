@@ -7,6 +7,10 @@ class UserUseCase {
 
   UserUseCase(this.userRepository);
 
+  Future<User> get(String token) async {
+    return await userRepository.get(token);
+  }
+
   Future<User> create(String name, String email, String token) async {
     return await userRepository.create(
       name,
