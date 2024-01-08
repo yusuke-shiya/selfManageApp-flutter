@@ -30,6 +30,11 @@ class FirebaseAuthRepository implements AuthRepository {
     await _firebaseAuth.signOut();
   }
 
+  @override
+  Future<String> get token async {
+    return 'Bearer ${await _firebaseAuth.currentUser!.getIdToken()}';
+  }
+
   Auth _userFromFirebase(firebase_auth.User? user) {
     if (user == null) {
       throw firebase_auth.FirebaseAuthException(
