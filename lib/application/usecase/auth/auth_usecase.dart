@@ -18,6 +18,10 @@ class AuthUseCase {
   Future<void> signOut() async {
     await authRepository.signOut();
   }
+
+  Future<String> get token async {
+    return await authRepository.token;
+  }
 }
 
 final authUseCaseProvider = Provider<AuthUseCase>((ref) {

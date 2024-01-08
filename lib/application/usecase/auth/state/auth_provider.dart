@@ -64,4 +64,9 @@ class AuthStateNotifier extends StateNotifier<AuthState> {
       state = AuthState.error(e.toString());
     }
   }
+
+  // トークンを取得するロジック
+  Future<String> get token async {
+    return await _authUseCase.token;
+  }
 }
