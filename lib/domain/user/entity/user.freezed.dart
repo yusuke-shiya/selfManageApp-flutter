@@ -20,7 +20,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$User {
-  String get uid => throw _privateConstructorUsedError;
+  String get userUuid => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
   @useResult
-  $Res call({String uid, String email, String name});
+  $Res call({String userUuid, String email, String name});
 }
 
 /// @nodoc
@@ -50,14 +50,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = null,
+    Object? userUuid = null,
     Object? email = null,
     Object? name = null,
   }) {
     return _then(_value.copyWith(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
+      userUuid: null == userUuid
+          ? _value.userUuid
+          : userUuid // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -78,7 +78,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$UserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String uid, String email, String name});
+  $Res call({String userUuid, String email, String name});
 }
 
 /// @nodoc
@@ -91,14 +91,14 @@ class __$$UserImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? uid = null,
+    Object? userUuid = null,
     Object? email = null,
     Object? name = null,
   }) {
     return _then(_$UserImpl(
-      uid: null == uid
-          ? _value.uid
-          : uid // ignore: cast_nullable_to_non_nullable
+      userUuid: null == userUuid
+          ? _value.userUuid
+          : userUuid // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _value.email
@@ -116,13 +116,13 @@ class __$$UserImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$UserImpl with DiagnosticableTreeMixin implements _User {
   const _$UserImpl(
-      {required this.uid, required this.email, required this.name});
+      {required this.userUuid, required this.email, required this.name});
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
 
   @override
-  final String uid;
+  final String userUuid;
   @override
   final String email;
   @override
@@ -130,7 +130,7 @@ class _$UserImpl with DiagnosticableTreeMixin implements _User {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'User(uid: $uid, email: $email, name: $name)';
+    return 'User(userUuid: $userUuid, email: $email, name: $name)';
   }
 
   @override
@@ -138,7 +138,7 @@ class _$UserImpl with DiagnosticableTreeMixin implements _User {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'User'))
-      ..add(DiagnosticsProperty('uid', uid))
+      ..add(DiagnosticsProperty('userUuid', userUuid))
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('name', name));
   }
@@ -148,14 +148,15 @@ class _$UserImpl with DiagnosticableTreeMixin implements _User {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UserImpl &&
-            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.userUuid, userUuid) ||
+                other.userUuid == userUuid) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.name, name) || other.name == name));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, uid, email, name);
+  int get hashCode => Object.hash(runtimeType, userUuid, email, name);
 
   @JsonKey(ignore: true)
   @override
@@ -173,14 +174,14 @@ class _$UserImpl with DiagnosticableTreeMixin implements _User {
 
 abstract class _User implements User {
   const factory _User(
-      {required final String uid,
+      {required final String userUuid,
       required final String email,
       required final String name}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
   @override
-  String get uid;
+  String get userUuid;
   @override
   String get email;
   @override
