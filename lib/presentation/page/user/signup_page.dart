@@ -15,7 +15,7 @@ class SignupPage extends ConsumerWidget {
     // 状態が更新された際の副作用
     ref.listen<AuthState>(authStateProvider, (_, state) async {
       if (state.auth != null) {
-        // ユーザーが認証されている場合、user apiのcreateを実行
+        // backendにもユーザーを作成し、ホーム画面に遷移
         await ref.read(userStateProvider.notifier).create(
               state.auth!.email,
               state.auth!.uid,
