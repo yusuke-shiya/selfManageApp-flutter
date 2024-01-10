@@ -19,7 +19,7 @@ class SigninPage extends ConsumerWidget {
       // stateが更新されたら、状態に応じて処理を実行
       if (state.auth != null) {
         // backendからユーザー情報を取得し、ホーム画面に遷移
-        await ref.read(userStateProvider.notifier).get(
+        await ref.read(userProvider.notifier).get(
               await ref.read(authStateProvider.notifier).token,
             );
         Navigator.of(context).pushReplacement(
@@ -33,16 +33,16 @@ class SigninPage extends ConsumerWidget {
     });
     // stateProviderを読み込む
     final authState = ref.watch(authStateProvider);
-    final userState = ref.watch(userStateProvider);
+    final userState = ref.watch(userProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('ログイン'),
+        title: const Text('ログイン'),
       ),
       body: Center(
         child: Container(
-          constraints: BoxConstraints.loose(Size(400, double.infinity)),
-          padding: EdgeInsets.all(24),
+          constraints: BoxConstraints.loose(const Size(400, double.infinity)),
+          padding: const EdgeInsets.all(24),
           child: Form(
             key: _formKey,
             child: Column(
@@ -69,7 +69,7 @@ class SigninPage extends ConsumerWidget {
                     return null;
                   },
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: authState.isLoading || userState.isLoading
                       ? null
@@ -89,7 +89,7 @@ class SigninPage extends ConsumerWidget {
                 TextButton(
                   onPressed: () => Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => SignupPage())),
-                  child: Text('登録はこちら'),
+                  child: const Text('登録はこちら'),
                 ),
               ],
             ),

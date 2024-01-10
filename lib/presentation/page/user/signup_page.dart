@@ -20,7 +20,7 @@ class SignupPage extends ConsumerWidget {
       // stateが更新されたら、状態に応じて処理を実行
       if (state.auth != null) {
         // backendにもユーザーを作成し、ホーム画面に遷移
-        await ref.read(userStateProvider.notifier).create(
+        await ref.read(userProvider.notifier).create(
               _nameController.text,
               state.auth!.email,
               await ref.read(authStateProvider.notifier).token,
@@ -36,7 +36,7 @@ class SignupPage extends ConsumerWidget {
     });
     // stateProviderを読み込む
     final authState = ref.watch(authStateProvider);
-    final userState = ref.watch(userStateProvider);
+    final userState = ref.watch(userProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -44,8 +44,8 @@ class SignupPage extends ConsumerWidget {
       ),
       body: Center(
         child: Container(
-          constraints: BoxConstraints.loose(Size(400, double.infinity)),
-          padding: EdgeInsets.all(24),
+          constraints: BoxConstraints.loose(const Size(400, double.infinity)),
+          padding: const EdgeInsets.all(24),
           child: Form(
             key: _formKey,
             child: Column(
@@ -53,7 +53,7 @@ class SignupPage extends ConsumerWidget {
               children: <Widget>[
                 TextFormField(
                   controller: _nameController,
-                  decoration: InputDecoration(labelText: '名前'),
+                  decoration: const InputDecoration(labelText: '名前'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return '名前を入力してください';
@@ -63,7 +63,7 @@ class SignupPage extends ConsumerWidget {
                 ),
                 TextFormField(
                   controller: _emailController,
-                  decoration: InputDecoration(labelText: 'メールアドレス'),
+                  decoration: const InputDecoration(labelText: 'メールアドレス'),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
                       return 'メールアドレスを入力してください';
@@ -73,7 +73,7 @@ class SignupPage extends ConsumerWidget {
                 ),
                 TextFormField(
                   controller: _passwordController,
-                  decoration: InputDecoration(labelText: 'パスワード'),
+                  decoration: const InputDecoration(labelText: 'パスワード'),
                   obscureText: true,
                   validator: (value) {
                     if (value == null || value.isEmpty) {
