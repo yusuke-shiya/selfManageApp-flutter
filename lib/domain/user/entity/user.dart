@@ -1,7 +1,17 @@
-class User {
-  final String uid;
-  final String email;
-  final String name;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:flutter/foundation.dart';
 
-  User({required this.uid, required this.email, this.name = ""});
+part 'user.freezed.dart';
+part 'user.g.dart';
+
+@freezed
+class User with _$User {
+  @JsonSerializable(fieldRename: FieldRename.snake)
+  const factory User({
+    required String userUuid,
+    required String email,
+    required String name,
+  }) = _User;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
