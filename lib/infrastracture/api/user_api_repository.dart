@@ -19,14 +19,13 @@ class UserApiRepository implements UserRepository {
     );
 
     if (response.statusCode == 200) {
-      print('user get');
       try {
         final data = response.data as dynamic;
-        print('data');
-        print(data);
         final user = User.fromJson(data);
         return user;
       } catch (e) {
+        print('error');
+        print(e);
         throw e;
       }
     } else {
@@ -45,14 +44,13 @@ class UserApiRepository implements UserRepository {
         ));
 
     if (response.statusCode == 200) {
-      print('user created');
       try {
         final data = response.data as dynamic;
-        print('data');
-        print(data);
         final user = User.fromJson(data);
         return user;
       } catch (e) {
+        print('error');
+        print(e);
         throw e;
       }
     } else {
