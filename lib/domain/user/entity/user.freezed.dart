@@ -113,7 +113,8 @@ class __$$UserImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+
+@JsonSerializable(fieldRename: FieldRename.snake)
 class _$UserImpl with DiagnosticableTreeMixin implements _User {
   const _$UserImpl(
       {required this.userUuid, required this.email, required this.name});
