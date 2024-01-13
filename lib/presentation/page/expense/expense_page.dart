@@ -69,30 +69,61 @@ class ExpensePage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
-                width: 240,
-                height: 240,
-                child: PieChart(
-                  PieChartData(
-                    centerSpaceRadius: 70,
-                    sectionsSpace: 0,
-                    startDegreeOffset: -90,
-                    sections: [
-                      PieChartSectionData(
-                        color: Colors.blue,
-                        value: 10,
-                        title: '',
-                        radius: 50,
+              Stack(
+                children: [
+                  SizedBox(
+                    width: 240,
+                    height: 240,
+                    child: PieChart(
+                      PieChartData(
+                        centerSpaceRadius: 70,
+                        sectionsSpace: 0,
+                        startDegreeOffset: -90,
+                        sections: [
+                          PieChartSectionData(
+                            color: Colors.blue,
+                            value: 10,
+                            title: '',
+                            radius: 50,
+                          ),
+                          PieChartSectionData(
+                            color: const Color.fromARGB(255, 203, 203, 203),
+                            value: 90,
+                            title: '',
+                            radius: 50,
+                          ),
+                        ],
                       ),
-                      PieChartSectionData(
-                        color: const Color.fromARGB(255, 203, 203, 203),
-                        value: 90,
-                        title: '',
-                        radius: 50,
-                      ),
-                    ],
+                    ),
                   ),
-                ),
+                  Positioned.fill(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          '¥100,000',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Container(
+                          margin: const EdgeInsets.symmetric(vertical: 4),
+                          height: 1,
+                          width: 100,
+                          color: Colors.black,
+                        ),
+                        const Text(
+                          '¥1,000,000',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
               // 支出一覧を表示
               DataTable(
