@@ -1,12 +1,20 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:self_manage_app/presentation/page/expense/input_page.dart';
 
 class ExpensePage extends StatelessWidget {
   const ExpensePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: const Drawer(
+        width: 360,
+        child: InputPage(),
+      ),
       body: Center(
         child: Container(
           padding: const EdgeInsets.all(20),
@@ -200,8 +208,7 @@ class ExpensePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // 入力画面に遷移
-          Navigator.pushNamed(context, '/expense/input');
+          _scaffoldKey.currentState!.openEndDrawer();
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
