@@ -27,7 +27,7 @@ void main() async {
           UserApiRepository(),
         ),
       ],
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
