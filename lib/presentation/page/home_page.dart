@@ -9,24 +9,20 @@ import 'package:self_manage_app/presentation/page/user/signin_page.dart';
 class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // TODO: 画面開発中だけはログインせずにexpense画面に遷移する
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
-      Navigator.of(context).pushReplacementNamed('/expense');
-    });
-    // final authState = ref.watch(authStateProvider);
-    // final userState = ref.watch(userProvider);
+    final authState = ref.watch(authStateProvider);
+    final userState = ref.watch(userProvider);
     // ログインしていない場合はログイン画面に遷移
-    // if (!authState.isLoading && authState.auth == null) {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     Navigator.of(context).pushReplacementNamed('/signin');
-    //   });
-    // }
+    if (!authState.isLoading && authState.auth == null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacementNamed('/signin');
+      });
+    }
     // TODO: ダサいので後で直す
-    // else if (!userState.isLoading && userState.asData?.value.userUuid != '') {
-    //   WidgetsBinding.instance.addPostFrameCallback((_) {
-    //     Navigator.of(context).pushReplacementNamed('/expense');
-    //   });
-    // }
+    else if (!userState.isLoading && userState.asData?.value.userUuid != '') {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacementNamed('/expense');
+      });
+    }
 
     // ログインできたが、ユーザー情報が取得できていない場合はローディングを表示
     return const Scaffold(
