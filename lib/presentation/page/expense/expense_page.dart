@@ -200,7 +200,8 @@ class ExpensePage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Add your onPressed code here!
+          // 入力画面に遷移
+          Navigator.pushNamed(context, '/expense/input');
         },
         backgroundColor: Colors.blue,
         child: const Icon(Icons.add),
