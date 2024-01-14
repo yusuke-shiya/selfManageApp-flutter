@@ -99,15 +99,10 @@ class SignupPage extends ConsumerWidget {
                 ),
                 const SizedBox(height: 20),
                 TextButton(
-                  child: const Text('ログインはこちら'),
-                  onPressed: () async {
-                    await Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) {
-                        return SigninPage();
-                      }),
-                    );
-                  },
-                ),
+                    child: const Text('ログインはこちら'),
+                    onPressed: () {
+                      Navigator.of(context).pushNamed('/signin');
+                    }),
               ],
             ),
           ),
