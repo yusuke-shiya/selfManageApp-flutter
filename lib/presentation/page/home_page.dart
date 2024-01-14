@@ -12,14 +12,23 @@ class HomePage extends ConsumerWidget {
     final authState = ref.watch(authStateProvider);
     final userState = ref.watch(userProvider);
     // ログインしていない場合はログイン画面に遷移
-    if (authState.auth == null) {
+    if (!authState.isLoading && authState.auth == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => SigninPage()),
-        );
+        Navigator.of(context).pushReplacementNamed('/signin');
+      });
+    }
+    // TODO: ダサいので後で直す
+    else if (!userState.isLoading && userState.asData?.value.userUuid != '') {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Navigator.of(context).pushReplacementNamed('/expense');
       });
     }
 
-    return const ExpensePage();
+    // ログインできたが、ユーザー情報が取得できていない場合はローディングを表示
+    return const Scaffold(
+      body: Center(
+        child: CircularProgressIndicator(),
+      ),
+    );
   }
 }
