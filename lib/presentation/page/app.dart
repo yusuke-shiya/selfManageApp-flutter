@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:self_manage_app/presentation/page/expense/expense_page.dart';
 import 'package:self_manage_app/presentation/page/expense/input_page.dart';
 import 'package:self_manage_app/presentation/page/home_page.dart';
+import 'package:self_manage_app/presentation/page/user/signin_page.dart';
+import 'package:self_manage_app/presentation/page/user/signup_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -13,6 +15,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
+        'signin': (context) => SigninPage(),
+        'signup': (context) => SignupPage(),
         '/expense': (context) => const ExpensePage(),
         '/expense/input': (context) => const InputPage(),
       },
