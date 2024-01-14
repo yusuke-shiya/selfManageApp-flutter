@@ -12,7 +12,6 @@ class InputPage extends StatefulWidget {
 
 class _InputPageState extends State<InputPage> with TickerProviderStateMixin {
   TabController? _tabController;
-  int _selectedIndex = 0;
 
   //　タブの中身
   @override
@@ -29,7 +28,7 @@ class _InputPageState extends State<InputPage> with TickerProviderStateMixin {
         toolbarHeight: 0,
         bottom: TabBar(
           controller: _tabController,
-          tabs: [
+          tabs: const [
             Tab(
               child: Text(
                 '支出',
@@ -57,7 +56,7 @@ class _InputPageState extends State<InputPage> with TickerProviderStateMixin {
         padding: const EdgeInsets.all(20),
         child: TabBarView(
           controller: _tabController,
-          children: [
+          children: const [
             OutcomeInputForm(),
             IncomeInputForm(),
           ],
