@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:self_manage_app/presentation/page/expense/components/income_input_form.dart';
+import 'package:self_manage_app/presentation/page/expense/components/outcome_input_form.dart';
 
 //　タブで支出入力と支出入力の切り替えを行う
 class InputPage extends StatefulWidget {
@@ -24,16 +26,29 @@ class _InputPageState extends State<InputPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        toolbarHeight: 0,
         bottom: TabBar(
           controller: _tabController,
           tabs: [
             Tab(
-              icon: Icon(Icons.input),
-              text: 'Input',
+              child: Text(
+                '支出',
+                style: TextStyle(
+                  fontSize: 16,
+                  // fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
+                ),
+              ),
             ),
             Tab(
-              icon: Icon(Icons.list),
-              text: 'List',
+              child: Text(
+                '収入',
+                style: TextStyle(
+                  fontSize: 16,
+                  // fontWeight: FontWeight.bold,
+                  letterSpacing: 2,
+                ),
+              ),
             ),
           ],
         ),
@@ -41,16 +56,8 @@ class _InputPageState extends State<InputPage> with TickerProviderStateMixin {
       body: TabBarView(
         controller: _tabController,
         children: [
-          Container(
-            child: const Center(
-              child: Text('Input'),
-            ),
-          ),
-          Container(
-            child: const Center(
-              child: Text('List'),
-            ),
-          ),
+          OutcomeInputForm(),
+          IncomeInputForm(),
         ],
       ),
     );
