@@ -7,16 +7,21 @@ class ExpensePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.all(20),
-        child: Center(
+      body: Center(
+        child: Container(
+          padding: const EdgeInsets.all(20),
+          width: 360,
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.arrow_back_ios)),
+                      padding: const EdgeInsets.all(0),
+                      constraints: const BoxConstraints(),
+                      onPressed: () {},
+                      icon: const Icon(Icons.arrow_back_ios)),
                   const SizedBox(
                     width: 12,
                   ),
@@ -62,85 +67,132 @@ class ExpensePage extends StatelessWidget {
                     width: 12,
                   ),
                   IconButton(
+                      padding: const EdgeInsets.all(0),
+                      constraints: const BoxConstraints(),
                       onPressed: () {},
                       icon: const Icon(Icons.arrow_forward_ios)),
                 ],
               ),
               const SizedBox(
-                height: 20,
+                height: 52,
               ),
-              Stack(
-                children: [
-                  SizedBox(
-                    width: 240,
-                    height: 240,
-                    child: PieChart(
-                      PieChartData(
-                        centerSpaceRadius: 70,
-                        sectionsSpace: 0,
-                        startDegreeOffset: -90,
-                        sections: [
-                          PieChartSectionData(
-                            color: Colors.blue,
-                            value: 10,
-                            title: '',
-                            radius: 50,
+              Center(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      width: 240,
+                      height: 240,
+                      child: PieChart(
+                        PieChartData(
+                          centerSpaceRadius: 70,
+                          sectionsSpace: 0,
+                          startDegreeOffset: -90,
+                          sections: [
+                            PieChartSectionData(
+                              color: Colors.blue,
+                              value: 10,
+                              title: '',
+                              radius: 50,
+                            ),
+                            PieChartSectionData(
+                              color: const Color.fromARGB(255, 203, 203, 203),
+                              value: 90,
+                              title: '',
+                              radius: 50,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            '¥100,000',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                          PieChartSectionData(
-                            color: const Color.fromARGB(255, 203, 203, 203),
-                            value: 90,
-                            title: '',
-                            radius: 50,
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 4),
+                            height: 1,
+                            width: 100,
+                            color: Theme.of(context).dividerColor,
+                          ),
+                          const Text(
+                            '¥1,000,000',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
                     ),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 40,
+              ),
+              // 収支を表示
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      // TODO: DataTableのborderと同じ色にしたい
+                      color: Theme.of(context).dividerColor,
+                    ),
                   ),
-                  Positioned.fill(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          '¥100,000',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.symmetric(vertical: 4),
-                          height: 1,
-                          width: 100,
-                          color: Colors.black,
-                        ),
-                        const Text(
-                          '¥1,000,000',
-                          style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                ),
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('収支',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                    Text('¥900,000',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold)),
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              // 支出一覧を表示
+              const Text(
+                '支出一覧',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(
+                height: 12,
+              ),
+              SizedBox(
+                width: double.infinity,
+                child: DataTable(
+                  headingRowHeight: 0,
+                  horizontalMargin: 0,
+                  columnSpacing: 0,
+                  columns: const [
+                    DataColumn(label: Text('')),
+                    DataColumn(label: Text(''), numeric: true),
+                  ],
+                  rows: List<DataRow>.generate(
+                    10,
+                    (index) => const DataRow(
+                      cells: [
+                        DataCell(Text('〇〇さんと飲み会')),
+                        DataCell(Text('¥3,000')),
                       ],
                     ),
                   ),
-                ],
-              ),
-              // 支出一覧を表示
-              DataTable(
-                columns: const [
-                  DataColumn(label: Text('')),
-                  DataColumn(label: Text('')),
-                ],
-                rows: List<DataRow>.generate(
-                  10,
-                  (index) => const DataRow(
-                    cells: [
-                      DataCell(Text('〇〇さんと飲み会')),
-                      DataCell(Text('¥3,000')),
-                    ],
-                  ),
+                  showBottomBorder: true,
                 ),
-                showBottomBorder: true,
               ),
             ],
           ),
