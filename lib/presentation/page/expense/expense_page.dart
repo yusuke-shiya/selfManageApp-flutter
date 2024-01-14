@@ -98,7 +98,7 @@ class ExpensePage extends StatelessWidget {
                           startDegreeOffset: -90,
                           sections: [
                             PieChartSectionData(
-                              color: Colors.blue,
+                              color: Theme.of(context).primaryColor,
                               value: 10,
                               title: '',
                               radius: 50,
@@ -210,7 +210,7 @@ class ExpensePage extends StatelessWidget {
         onPressed: () {
           _scaffoldKey.currentState!.openEndDrawer();
         },
-        backgroundColor: Colors.blue,
+        backgroundColor: Theme.of(context).primaryColor,
         child: const Icon(Icons.add),
       ),
     );
