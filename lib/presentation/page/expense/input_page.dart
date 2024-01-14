@@ -53,12 +53,15 @@ class _InputPageState extends State<InputPage> with TickerProviderStateMixin {
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          OutcomeInputForm(),
-          IncomeInputForm(),
-        ],
+      body: Container(
+        padding: const EdgeInsets.all(20),
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            OutcomeInputForm(),
+            IncomeInputForm(),
+          ],
+        ),
       ),
     );
   }
