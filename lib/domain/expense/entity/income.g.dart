@@ -7,9 +7,9 @@ part of 'income.dart';
 // **************************************************************************
 
 _$IncomeImpl _$$IncomeImplFromJson(Map<String, dynamic> json) => _$IncomeImpl(
-      year: json['year'] as String,
-      month: json['month'] as String,
-      amount: json['amount'] as String,
+      year: json['year'] as int,
+      month: json['month'] as int,
+      amount: json['amount'] as int,
     );
 
 Map<String, dynamic> _$$IncomeImplToJson(_$IncomeImpl instance) =>

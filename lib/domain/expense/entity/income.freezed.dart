@@ -20,9 +20,9 @@ Income _$IncomeFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Income {
-  String get year => throw _privateConstructorUsedError;
-  String get month => throw _privateConstructorUsedError;
-  String get amount => throw _privateConstructorUsedError;
+  int get year => throw _privateConstructorUsedError;
+  int get month => throw _privateConstructorUsedError;
+  int get amount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -34,7 +34,7 @@ abstract class $IncomeCopyWith<$Res> {
   factory $IncomeCopyWith(Income value, $Res Function(Income) then) =
       _$IncomeCopyWithImpl<$Res, Income>;
   @useResult
-  $Res call({String year, String month, String amount});
+  $Res call({int year, int month, int amount});
 }
 
 /// @nodoc
@@ -58,15 +58,15 @@ class _$IncomeCopyWithImpl<$Res, $Val extends Income>
       year: null == year
           ? _value.year
           : year // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       month: null == month
           ? _value.month
           : month // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ) as $Val);
   }
 }
@@ -78,7 +78,7 @@ abstract class _$$IncomeImplCopyWith<$Res> implements $IncomeCopyWith<$Res> {
       __$$IncomeImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String year, String month, String amount});
+  $Res call({int year, int month, int amount});
 }
 
 /// @nodoc
@@ -100,15 +100,15 @@ class __$$IncomeImplCopyWithImpl<$Res>
       year: null == year
           ? _value.year
           : year // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       month: null == month
           ? _value.month
           : month // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
-              as String,
+              as int,
     ));
   }
 }
@@ -124,11 +124,11 @@ class _$IncomeImpl with DiagnosticableTreeMixin implements _Income {
       _$$IncomeImplFromJson(json);
 
   @override
-  final String year;
+  final int year;
   @override
-  final String month;
+  final int month;
   @override
-  final String amount;
+  final int amount;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -175,18 +175,18 @@ class _$IncomeImpl with DiagnosticableTreeMixin implements _Income {
 
 abstract class _Income implements Income {
   const factory _Income(
-      {required final String year,
-      required final String month,
-      required final String amount}) = _$IncomeImpl;
+      {required final int year,
+      required final int month,
+      required final int amount}) = _$IncomeImpl;
 
   factory _Income.fromJson(Map<String, dynamic> json) = _$IncomeImpl.fromJson;
 
   @override
-  String get year;
+  int get year;
   @override
-  String get month;
+  int get month;
   @override
-  String get amount;
+  int get amount;
   @override
   @JsonKey(ignore: true)
   _$$IncomeImplCopyWith<_$IncomeImpl> get copyWith =>

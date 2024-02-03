@@ -8,9 +8,9 @@ part 'income.g.dart';
 class Income with _$Income {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory Income({
-    required String year,
-    required String month,
-    required String amount,
+    required int year,
+    required int month,
+    required int amount,
   }) = _Income;
 
   factory Income.fromJson(Map<String, dynamic> json) => _$IncomeFromJson(json);

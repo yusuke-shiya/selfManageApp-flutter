@@ -9,7 +9,7 @@ class ExpenseApiRepository implements ExpenseRepository {
 
   @override
   Future<Income> createIncome(
-      String year, String month, String amount, String token) async {
+      int year, int month, int amount, String token) async {
     final response = await _dio.post(
       url,
       data: {'year': year, 'month': month, 'amount': amount},
