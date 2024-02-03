@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
+import 'package:self_manage_app/application/usecase/expense/state/income_providar.dart';
 
-class IncomeInputForm extends StatefulWidget {
+class IncomeInputForm extends ConsumerStatefulWidget {
   const IncomeInputForm({Key? key}) : super(key: key);
 
   @override
-  State<IncomeInputForm> createState() => _IncomeInputFormState();
+  ConsumerState<IncomeInputForm> createState() => _IncomeInputFormState();
 }
 
-class _IncomeInputFormState extends State<IncomeInputForm> {
+class _IncomeInputFormState extends ConsumerState<IncomeInputForm> {
   DateTime _date = DateTime.now();
+  TextEditingController _amountController = TextEditingController();
 
+  // 日付選択
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -27,6 +32,9 @@ class _IncomeInputFormState extends State<IncomeInputForm> {
     return DateFormat('yyyy/MM/dd').format(date);
   }
 
+  // 金額
+  int get _amount => int.parse(_amountController.text);
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -36,6 +44,7 @@ class _IncomeInputFormState extends State<IncomeInputForm> {
           children: [
             // 金額
             TextField(
+              controller: _amountController,
               keyboardType: TextInputType.number,
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,
@@ -74,7 +83,15 @@ class _IncomeInputFormState extends State<IncomeInputForm> {
           left: 0,
           right: 0,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () async {
+              final token = await ref.read(authStateProvider.notifier).token;
+              ref.read(incomeProvider.notifier).create(
+                    _date.year,
+                    _date.month,
+                    _amount,
+                    token,
+                  );
+            },
             child: const Text('保存'),
           ),
         ),
