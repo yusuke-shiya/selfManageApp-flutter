@@ -32,5 +32,5 @@ class ExpenseUseCase {
 }
 
 final expenseUseCaseProvider = Provider<ExpenseUseCase>((ref) {
-  return ExpenseUseCase(ref.read(expensiveRepositoryProvider));
+  return ExpenseUseCase(ref.read(expenseRepositoryProvider));
 });

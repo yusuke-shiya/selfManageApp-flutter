@@ -1,9 +1,10 @@
 import 'package:dio/dio.dart';
+import 'package:self_manage_app/domain/expense/entity/expense.dart';
 import 'package:self_manage_app/domain/expense/entity/income.dart';
 import 'package:self_manage_app/domain/expense/entity/outcome.dart';
 import 'package:self_manage_app/domain/expense/expense_repository.dart';
 
-const url = 'https://selfmanageapp.onrender.com/expense';
+const url = 'https://selfmanageapp.onrender.com';
 
 class ExpenseApiRepository implements ExpenseRepository {
   final _dio = Dio();
@@ -12,7 +13,7 @@ class ExpenseApiRepository implements ExpenseRepository {
   Future<Income> createIncome(
       int year, int month, int amount, String token) async {
     final response = await _dio.post(
-      url,
+      '${url}/income/create',
       data: {'year': year, 'month': month, 'amount': amount},
       options: Options(
         headers: {
@@ -36,7 +37,7 @@ class ExpenseApiRepository implements ExpenseRepository {
   Future<Outcome> createOutcome(int year, int month, int day, int amount,
       String title, String token) async {
     final response = await _dio.post(
-      url,
+      '${url}/outcome/create',
       data: {
         'year': year,
         'month': month,
