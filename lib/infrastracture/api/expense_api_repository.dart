@@ -10,6 +10,26 @@ class ExpenseApiRepository implements ExpenseRepository {
   final _dio = Dio();
 
   @override
+  Future<Expense> getExpense(int year, int month, String token) async {
+    final response = await _dio.get(
+      '${url}/expense/get',
+      queryParameters: {'year': year, 'month': month},
+      options: Options(
+        headers: {
+          'Authorization': token,
+        },
+      ),
+    );
+
+    if (response.statusCode == 200) {
+      final data = response.data as dynamic;
+      return Expense.fromJson(data);
+    } else {
+      throw Exception('Failed to get expense');
+    }
+  }
+
+  @override
   Future<Income> createIncome(
       int year, int month, int amount, String token) async {
     final response = await _dio.post(
