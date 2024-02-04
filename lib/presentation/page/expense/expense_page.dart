@@ -1,7 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
 import 'package:self_manage_app/application/usecase/expense/state/expense_providar.dart';
 import 'package:self_manage_app/presentation/page/expense/input_page.dart';
 
@@ -16,13 +15,9 @@ class _ExpensePageState extends ConsumerState<ExpensePage> {
   @override
   void initState() {
     super.initState();
-    fetchExpense();
-  }
-
-  fetchExpense() async {
-    ref
-        .read(expenseProvider.notifier)
-        .get(2024, 2, await ref.read(authStateProvider.notifier).token);
+    Future(
+      () => ref.read(expenseProvider.notifier).get(2024, 2),
+    );
   }
 
   @override

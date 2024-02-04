@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
 import 'package:self_manage_app/application/usecase/expense/state/income_providar.dart';
 
 class IncomeInputForm extends ConsumerStatefulWidget {
@@ -84,12 +83,10 @@ class _IncomeInputFormState extends ConsumerState<IncomeInputForm> {
           right: 0,
           child: ElevatedButton(
             onPressed: () async {
-              final token = await ref.read(authStateProvider.notifier).token;
               ref.read(incomeProvider.notifier).create(
                     _date.year,
                     _date.month,
                     _amount,
-                    token,
                   );
             },
             child: const Text('保存'),

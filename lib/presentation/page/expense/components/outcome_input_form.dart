@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
 import 'package:self_manage_app/application/usecase/expense/state/outcome_providar.dart';
 
 class OutcomeInputForm extends ConsumerStatefulWidget {
@@ -96,7 +95,6 @@ class OutcomeInputFormState extends ConsumerState<OutcomeInputForm> {
                     _date.day,
                     amount,
                     title,
-                    await ref.read(authStateProvider.notifier).token,
                   );
             },
             child: const Text('保存'),

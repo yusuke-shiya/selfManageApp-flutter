@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
 import 'package:self_manage_app/application/usecase/expense/expense_usecase.dart';
 import 'package:self_manage_app/domain/expense/entity/outcome.dart';
 
@@ -17,8 +18,8 @@ class OutcomeNotifier extends AsyncNotifier<Outcome> {
     );
   }
 
-  Future<void> create(int year, int month, int day, int amount, String title,
-      String token) async {
+  Future<void> create(
+      int year, int month, int day, int amount, String title) async {
     state = const AsyncValue.loading();
     try {
       final outcome = await ref.read(expenseUseCaseProvider).createOutcome(
@@ -27,7 +28,7 @@ class OutcomeNotifier extends AsyncNotifier<Outcome> {
             day,
             amount,
             title,
-            token,
+            await ref.read(authStateProvider.notifier).token,
           );
       state = AsyncValue.data(outcome);
     } catch (e) {

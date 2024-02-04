@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
 import 'package:self_manage_app/domain/expense/entity/expense.dart';
 import 'package:self_manage_app/application/usecase/expense/expense_usecase.dart';
 
@@ -11,13 +12,13 @@ class ExpenseNotifier extends AsyncNotifier<Expense?> {
     return null;
   }
 
-  Future<void> get(int year, int month, String token) async {
+  Future<void> get(int year, int month) async {
     state = const AsyncValue.loading();
     try {
       final expense = await ref.read(expenseUseCaseProvider).getExpense(
             year,
             month,
-            token,
+            await ref.read(authStateProvider.notifier).token,
           );
       state = AsyncValue.data(expense);
     } catch (e) {
