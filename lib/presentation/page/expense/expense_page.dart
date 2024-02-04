@@ -1,13 +1,48 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:self_manage_app/application/usecase/auth/state/auth_provider.dart';
+import 'package:self_manage_app/application/usecase/expense/state/expense_providar.dart';
 import 'package:self_manage_app/presentation/page/expense/input_page.dart';
 
-class ExpensePage extends StatelessWidget {
+class ExpensePage extends ConsumerStatefulWidget {
   const ExpensePage({Key? key}) : super(key: key);
+
+  @override
+  _ExpensePageState createState() => _ExpensePageState();
+}
+
+class _ExpensePageState extends ConsumerState<ExpensePage> {
+  @override
+  void initState() {
+    super.initState();
+    fetchExpense();
+  }
+
+  fetchExpense() async {
+    ref
+        .read(expenseProvider.notifier)
+        .get(2024, 2, await ref.read(authStateProvider.notifier).token);
+  }
 
   @override
   Widget build(BuildContext context) {
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final expenseState = ref.watch(expenseProvider);
+    if (expenseState.isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+    expenseState.when(
+      data: (data) => print(
+        'data: $data',
+      ),
+      loading: () => print('loading'),
+      error: (error, stackTrace) => print('error: $error'),
+    );
 
     return Scaffold(
       key: _scaffoldKey,

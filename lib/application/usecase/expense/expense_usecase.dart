@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:self_manage_app/domain/expense/entity/expense.dart';
 import 'package:self_manage_app/domain/expense/entity/income.dart';
 import 'package:self_manage_app/domain/expense/entity/outcome.dart';
 import 'package:self_manage_app/domain/expense/expense_repository.dart';
@@ -7,6 +8,10 @@ class ExpenseUseCase {
   final ExpenseRepository expenseRepository;
 
   ExpenseUseCase(this.expenseRepository);
+
+  Future<Expense> getExpense(int year, int month, String token) async {
+    return await expenseRepository.getExpense(year, month, token);
+  }
 
   Future<Income> createIncome(
       int year, int month, int amount, String token) async {
