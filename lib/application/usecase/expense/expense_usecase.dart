@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:self_manage_app/domain/expense/entity/income.dart';
+import 'package:self_manage_app/domain/expense/entity/outcome.dart';
 import 'package:self_manage_app/domain/expense/expense_repository.dart';
 
 class ExpenseUseCase {
@@ -13,6 +14,18 @@ class ExpenseUseCase {
       year,
       month,
       amount,
+      token,
+    );
+  }
+
+  Future<Outcome> createOutcome(int year, int month, int day, int amount,
+      String title, String token) async {
+    return await expenseRepository.createOutcome(
+      year,
+      month,
+      day,
+      amount,
+      title,
       token,
     );
   }
